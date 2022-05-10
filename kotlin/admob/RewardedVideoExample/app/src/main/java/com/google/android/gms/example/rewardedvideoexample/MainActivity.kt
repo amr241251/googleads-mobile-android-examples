@@ -150,7 +150,7 @@ class MainActivity : AppCompatActivity() {
           loadRewardedAd()
         }
 
-        override fun onAdFailedToShowFullScreenContent(adError: AdError?) {
+        override fun onAdFailedToShowFullScreenContent(adError: AdError) {
           Log.d(TAG, "Ad failed to show.")
           // Don't forget to set the ad reference to null so you
           // don't show the ad a second time.

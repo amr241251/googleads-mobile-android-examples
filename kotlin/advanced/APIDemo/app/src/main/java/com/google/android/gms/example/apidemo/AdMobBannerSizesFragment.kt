@@ -67,18 +67,18 @@ class AdMobBannerSizesFragment : Fragment() {
         mAdView?.destroy()
       }
 
-      mAdView = AdView(activity)
+      mAdView = activity?.let { it -> AdView(it) }
       mAdView?.adUnitId = getString(R.string.admob_banner_ad_unit_id)
       bannersizes_fl_adframe.addView(mAdView)
 
-      mAdView?.adSize = when (bannersizes_spn_size.selectedItemPosition) {
-        0 -> AdSize.BANNER
-        1 -> AdSize.LARGE_BANNER
-        2 -> AdSize.SMART_BANNER
-        3 -> AdSize.FULL_BANNER
-        4 -> AdSize.MEDIUM_RECTANGLE
-        else -> AdSize.LEADERBOARD
-      }
+      mAdView?.setAdSize(when (bannersizes_spn_size.selectedItemPosition) {
+                           0 -> AdSize.BANNER
+                           1 -> AdSize.LARGE_BANNER
+                           2 -> AdSize.SMART_BANNER
+                           3 -> AdSize.FULL_BANNER
+                           4 -> AdSize.MEDIUM_RECTANGLE
+                           else -> AdSize.LEADERBOARD
+                         })
 
       mAdView?.loadAd(AdRequest.Builder().build())
     }

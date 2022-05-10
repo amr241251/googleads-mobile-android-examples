@@ -28,7 +28,7 @@ import com.google.android.gms.ads.MobileAds
 import com.google.android.gms.ads.admanager.AdManagerAdRequest
 import com.google.android.gms.ads.admanager.AdManagerInterstitialAd
 import com.google.android.gms.ads.admanager.AdManagerInterstitialAdLoadCallback
-import kotlinx.android.synthetic.main.activity_my.*
+import com.google.android.gms.example.interstitialexample.databinding.ActivityMyBinding
 
 const val GAME_LENGTH_MILLISECONDS: Long = 3000
 const val AD_UNIT_ID = "/6499/example/interstitial"
@@ -38,6 +38,7 @@ const val AD_UNIT_ID = "/6499/example/interstitial"
  */
 class MyActivity : AppCompatActivity() {
 
+  private lateinit var binding: ActivityMyBinding
   private var mInterstitialAd: AdManagerInterstitialAd? = null
   private var mCountDownTimer: CountDownTimer? = null
   private var mGameIsInProgress: Boolean = false
@@ -47,7 +48,9 @@ class MyActivity : AppCompatActivity() {
 
   override fun onCreate(savedInstanceState: Bundle?) {
     super.onCreate(savedInstanceState)
-    setContentView(R.layout.activity_my)
+    binding = ActivityMyBinding.inflate(layoutInflater)
+    val view = binding.root
+    setContentView(view)
 
     // Initialize the Mobile Ads SDK with an empty completion listener.
     MobileAds.initialize(this) {}
@@ -55,8 +58,8 @@ class MyActivity : AppCompatActivity() {
     loadAd()
 
     // Create the "retry" button, which tries to show an interstitial between game plays.
-    retry_button.visibility = View.INVISIBLE
-    retry_button.setOnClickListener { showInterstitial() }
+    binding.retryButton.visibility = View.INVISIBLE
+    binding.retryButton.setOnClickListener { showInterstitial() }
 
     startGame()
   }
@@ -98,13 +101,13 @@ class MyActivity : AppCompatActivity() {
     mCountDownTimer = object : CountDownTimer(milliseconds, 50) {
       override fun onTick(millisUntilFinished: Long) {
         mTimerMilliseconds = millisUntilFinished
-        timer.text = getString(R.string.seconds_remaining, (millisUntilFinished / 1000 + 1))
+        binding.timer.text = getString(R.string.seconds_remaining, (millisUntilFinished / 1000 + 1))
       }
 
       override fun onFinish() {
         mGameIsInProgress = false
-        timer.setText(R.string.done)
-        retry_button.visibility = View.VISIBLE
+        binding.timer.setText(R.string.done)
+        binding.retryButton.visibility = View.VISIBLE
       }
     }
   }
@@ -133,7 +136,7 @@ class MyActivity : AppCompatActivity() {
           Log.d(TAG, "Ad was dismissed.")
         }
 
-        override fun onAdFailedToShowFullScreenContent(adError: AdError?) {
+        override fun onAdFailedToShowFullScreenContent(adError: AdError) {
           mInterstitialAd = null
           Log.d(TAG, "Ad failed to show.")
         }
@@ -158,7 +161,7 @@ class MyActivity : AppCompatActivity() {
       loadAd()
     }
 
-    retry_button.visibility = View.INVISIBLE
+    binding.retryButton.visibility = View.INVISIBLE
     resumeGame(GAME_LENGTH_MILLISECONDS)
   }
 

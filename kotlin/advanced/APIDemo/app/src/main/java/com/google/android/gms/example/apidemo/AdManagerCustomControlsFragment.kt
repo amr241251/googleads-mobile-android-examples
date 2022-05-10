@@ -94,36 +94,36 @@ class AdManagerCustomControlsFragment : Fragment() {
     (adView.headlineView as TextView).text = nativeAd.headline
     (adView.bodyView as TextView).text = nativeAd.body
     (adView.callToActionView as Button).text = nativeAd.callToAction
-    (adView.iconView as ImageView).setImageDrawable(nativeAd.icon.drawable)
+    (adView.iconView as ImageView).setImageDrawable(nativeAd.icon?.drawable)
 
     // These assets aren't guaranteed to be in every NativeAd, so it's important to
     // check before trying to display them.
     if (nativeAd.price == null) {
-      adView.priceView.visibility = View.INVISIBLE
+      adView.priceView?.visibility = View.INVISIBLE
     } else {
-      adView.priceView.visibility = View.VISIBLE
+      adView.priceView?.visibility = View.VISIBLE
       (adView.priceView as TextView).text = nativeAd.price
     }
 
     if (nativeAd.store == null) {
-      adView.storeView.visibility = View.INVISIBLE
+      adView.storeView?.visibility = View.INVISIBLE
     } else {
-      adView.storeView.visibility = View.VISIBLE
+      adView.storeView?.visibility = View.VISIBLE
       (adView.storeView as TextView).text = nativeAd.store
     }
 
     if (nativeAd.starRating == null) {
-      adView.starRatingView.visibility = View.INVISIBLE
+      adView.starRatingView?.visibility = View.INVISIBLE
     } else {
       (adView.starRatingView as RatingBar).rating = nativeAd.starRating!!.toFloat()
-      adView.starRatingView.visibility = View.VISIBLE
+      adView.starRatingView?.visibility = View.VISIBLE
     }
 
     // Assign native ad object to the native view.
     adView.setNativeAd(nativeAd)
 
-    val mediaContent: MediaContent = nativeAd.mediaContent
-    custom_controls.setVideoController(mediaContent.videoController)
+    val mediaContent: MediaContent? = nativeAd.mediaContent
+    mediaContent?.videoController?.let { custom_controls.setVideoController(it) }
 
     btn_refresh.isEnabled = true
   }
@@ -160,7 +160,7 @@ class AdManagerCustomControlsFragment : Fragment() {
     } else {
       val mainImage = ImageView(activity)
       mainImage.adjustViewBounds = true
-      mainImage.setImageDrawable(nativeCustomFormatAd.getImage("MainImage").drawable)
+      mainImage.setImageDrawable(nativeCustomFormatAd.getImage("MainImage")?.drawable)
 
       mainImage.setOnClickListener { nativeCustomFormatAd.performClick("MainImage") }
       mediaPlaceholder.addView(mainImage)

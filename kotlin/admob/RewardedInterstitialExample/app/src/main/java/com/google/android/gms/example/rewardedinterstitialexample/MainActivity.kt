@@ -179,7 +179,7 @@ class MainActivity : AppCompatActivity() {
         loadRewardedInterstitialAd()
       }
 
-      override fun onAdFailedToShowFullScreenContent(adError: AdError?) {
+      override fun onAdFailedToShowFullScreenContent(adError: AdError) {
         Log.d(MAIN_ACTIVITY_TAG, "Ad failed to show.")
 
         // Don't forget to set the ad reference to null so you

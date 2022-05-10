@@ -88,73 +88,75 @@ class AdMobCustomMuteThisAdFragment : Fragment() {
     adView.advertiserView = adView.findViewById(R.id.ad_advertiser)
 
     (adView.headlineView as TextView).text = nativeAd.headline
-    adView.mediaView.setMediaContent(nativeAd.mediaContent)
+    nativeAd.mediaContent?.let { adView.mediaView?.setMediaContent(it) }
 
     if (nativeAd.body == null) {
-      adView.bodyView.visibility = View.INVISIBLE
+      adView.bodyView?.visibility = View.INVISIBLE
     } else {
       (adView.bodyView as TextView).text = nativeAd.body
-      adView.bodyView.visibility = View.VISIBLE
+      adView.bodyView?.visibility = View.VISIBLE
     }
 
     if (nativeAd.callToAction == null) {
-      adView.callToActionView.visibility = View.INVISIBLE
+      adView.callToActionView?.visibility = View.INVISIBLE
     } else {
       (adView.callToActionView as Button).text = nativeAd.callToAction
-      adView.callToActionView.visibility = View.VISIBLE
+      adView.callToActionView?.visibility = View.VISIBLE
     }
 
     if (nativeAd.icon == null) {
-      adView.iconView.visibility = View.GONE
+      adView.iconView?.visibility = View.GONE
     } else {
       (adView.iconView as ImageView).setImageDrawable(
-        nativeAd.icon.drawable
+        nativeAd.icon?.drawable
       )
-      adView.iconView.visibility = View.VISIBLE
+      adView.iconView?.visibility = View.VISIBLE
     }
 
     if (nativeAd.price == null) {
-      adView.priceView.visibility = View.INVISIBLE
+      adView.priceView?.visibility = View.INVISIBLE
     } else {
       (adView.priceView as TextView).text = nativeAd.price
-      adView.priceView.visibility = View.VISIBLE
+      adView.priceView?.visibility = View.VISIBLE
     }
 
     if (nativeAd.store == null) {
-      adView.storeView.visibility = View.INVISIBLE
+      adView.storeView?.visibility = View.INVISIBLE
     } else {
       (adView.storeView as TextView).text = nativeAd.store
-      adView.storeView.visibility = View.VISIBLE
+      adView.storeView?.visibility = View.VISIBLE
     }
 
     if (nativeAd.starRating == null) {
-      adView.starRatingView.visibility = View.INVISIBLE
+      adView.starRatingView?.visibility = View.INVISIBLE
     } else {
       (adView.starRatingView as RatingBar).rating = nativeAd.starRating!!.toFloat()
-      adView.starRatingView.visibility = View.VISIBLE
+      adView.starRatingView?.visibility = View.VISIBLE
     }
 
     if (nativeAd.advertiser == null) {
-      adView.advertiserView.visibility = View.INVISIBLE
+      adView.advertiserView?.visibility = View.INVISIBLE
     } else {
       (adView.advertiserView as TextView).text = nativeAd.advertiser
-      adView.advertiserView.visibility = View.VISIBLE
+      adView.advertiserView?.visibility = View.VISIBLE
     }
 
     adView.setNativeAd(nativeAd)
 
-    val mediaContent: MediaContent = nativeAd.mediaContent
+    val mediaContent: MediaContent? = nativeAd.mediaContent
 
-    if (mediaContent.hasVideoContent()) {
-      mediaContent.videoController.videoLifecycleCallbacks =
-        object : VideoController.VideoLifecycleCallbacks() {
-          override fun onVideoEnd() {
-          btn_refresh.isEnabled = true
-          super.onVideoEnd()
-        }
+    if (mediaContent != null) {
+      if (mediaContent.hasVideoContent()) {
+        mediaContent.videoController.videoLifecycleCallbacks =
+          object : VideoController.VideoLifecycleCallbacks() {
+            override fun onVideoEnd() {
+              btn_refresh.isEnabled = true
+              super.onVideoEnd()
+            }
+          }
+      } else {
+        btn_refresh.isEnabled = true
       }
-    } else {
-      btn_refresh.isEnabled = true
     }
   }
 
@@ -167,12 +169,14 @@ class AdMobCustomMuteThisAdFragment : Fragment() {
     btn_mute_ad.isEnabled = false
 
     val resources = requireActivity().resources
-    val builder = AdLoader.Builder(
-      activity,
-      resources.getString(R.string.custommute_fragment_ad_unit_id)
-    )
+    val builder = activity?.let {
+      AdLoader.Builder(
+        it,
+        resources.getString(R.string.custommute_fragment_ad_unit_id)
+      )
+    }
 
-    builder.forNativeAd { nativeAd ->
+    builder?.forNativeAd { nativeAd ->
       // OnNativeAdLoadedListener implementation.
       this@AdMobCustomMuteThisAdFragment.nativeAd = nativeAd
       btn_mute_ad.isEnabled = nativeAd.isCustomMuteThisAdEnabled
@@ -192,9 +196,9 @@ class AdMobCustomMuteThisAdFragment : Fragment() {
       .setRequestCustomMuteThisAd(true)
       .build()
 
-    builder.withNativeAdOptions(adOptions)
+    builder?.withNativeAdOptions(adOptions)
 
-    val adLoader = builder.withAdListener(object : AdListener() {
+    val adLoader = builder?.withAdListener(object : AdListener() {
       override fun onAdFailedToLoad(loadAdError: LoadAdError) {
         btn_refresh.isEnabled = true
         val error = "domain: ${loadAdError.domain}, code: ${loadAdError.code}, " +
@@ -203,8 +207,8 @@ class AdMobCustomMuteThisAdFragment : Fragment() {
           activity, "Failed to load native ad with error $error", Toast.LENGTH_SHORT
         ).show()
       }
-    }).build()
-    adLoader.loadAd(AdRequest.Builder().build())
+    })?.build()
+    adLoader?.loadAd(AdRequest.Builder().build())
   }
 
   private fun showMuteReasonsDialog() {

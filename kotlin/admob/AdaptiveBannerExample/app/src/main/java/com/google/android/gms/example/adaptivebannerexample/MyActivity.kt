@@ -99,7 +99,7 @@ class MyActivity : AppCompatActivity() {
   private fun loadBanner() {
     adView.adUnitId = AD_UNIT_ID
 
-    adView.adSize = adSize
+    adView.setAdSize(adSize)
 
     // Create an ad request.
     val adRequest = AdRequest.Builder().build()
