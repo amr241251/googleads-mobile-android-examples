@@ -20,7 +20,7 @@ import com.google.android.gms.ads.appopen.AppOpenAd.AppOpenAdLoadCallback
 import java.util.Date
 
 private const val AD_UNIT_ID = "ca-app-pub-3940256099942544/3419835294"
-private const val LOG_TAG = "AppOpenAdManager"
+private const val LOG_TAG = "MyApplication"
 
 /** Application class that initializes, loads and show ads when activities change states. */
 class MyApplication : Application(), Application.ActivityLifecycleCallbacks, LifecycleObserver {
@@ -31,6 +31,10 @@ class MyApplication : Application(), Application.ActivityLifecycleCallbacks, Lif
   override fun onCreate() {
     super.onCreate()
     registerActivityLifecycleCallbacks(this)
+
+    // Log the Mobile Ads SDK version.
+    Log.d(LOG_TAG, "GMA SDK VERSION: " + MobileAds.getVersion())
+
     MobileAds.initialize(this) {}
     ProcessLifecycleOwner.get().lifecycle.addObserver(this)
     appOpenAdManager = AppOpenAdManager()

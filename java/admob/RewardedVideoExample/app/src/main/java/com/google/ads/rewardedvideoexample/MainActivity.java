@@ -44,6 +44,10 @@ public class MainActivity extends Activity {
   protected void onCreate(Bundle savedInstanceState) {
     super.onCreate(savedInstanceState);
     setContentView(R.layout.activity_main);
+
+      // Log the Mobile Ads SDK version.
+      Log.d(TAG, "GMA SDK VERSION: " + MobileAds.getVersion());
+
     MobileAds.initialize(this, new OnInitializationCompleteListener() {
       @Override
       public void onInitializationComplete(InitializationStatus initializationStatus) {

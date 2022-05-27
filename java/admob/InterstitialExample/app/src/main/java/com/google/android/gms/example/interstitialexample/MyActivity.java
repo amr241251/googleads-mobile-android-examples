@@ -54,6 +54,9 @@ public class MyActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_my);
 
+        // Log the Mobile Ads SDK version.
+        Log.d(TAG, "GMA SDK VERSION: " + MobileAds.getVersion());
+
         // Initialize the Mobile Ads SDK.
         MobileAds.initialize(this, new OnInitializationCompleteListener() {
             @Override

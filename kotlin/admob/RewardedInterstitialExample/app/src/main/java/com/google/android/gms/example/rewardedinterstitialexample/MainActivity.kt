@@ -35,6 +35,9 @@ class MainActivity : AppCompatActivity() {
     super.onCreate(savedInstanceState)
     setContentView(R.layout.activity_main)
 
+    // Log the Mobile Ads SDK version.
+    Log.d(MAIN_ACTIVITY_TAG, "GMA SDK VERSION: " + MobileAds.getVersion())
+
     MobileAds.initialize(this) { initializationStatus -> loadRewardedInterstitialAd() }
 
     // Create the "retry" button, which tries to show a rewarded video ad between game plays.
@@ -179,7 +182,7 @@ class MainActivity : AppCompatActivity() {
         loadRewardedInterstitialAd()
       }
 
-      override fun onAdFailedToShowFullScreenContent(adError: AdError?) {
+      override fun onAdFailedToShowFullScreenContent(adError: AdError) {
         Log.d(MAIN_ACTIVITY_TAG, "Ad failed to show.")
 
         // Don't forget to set the ad reference to null so you

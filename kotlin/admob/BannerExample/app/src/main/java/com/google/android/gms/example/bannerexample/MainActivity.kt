@@ -1,17 +1,23 @@
 package com.google.android.gms.example.bannerexample
 
 import android.os.Bundle
+import android.util.Log
 import androidx.appcompat.app.AppCompatActivity
 import com.google.android.gms.ads.AdRequest
 import com.google.android.gms.ads.MobileAds
 import com.google.android.gms.ads.RequestConfiguration
 import kotlinx.android.synthetic.main.activity_main.*
 
+private const val TAG = "MainActivity"
+
 class MainActivity : AppCompatActivity() {
 
   override fun onCreate(savedInstanceState: Bundle?) {
     super.onCreate(savedInstanceState)
     setContentView(R.layout.activity_main)
+
+    // Log the Mobile Ads SDK version.
+    Log.d(TAG, "GMA SDK VERSION: " + MobileAds.getVersion())
 
     // Initialize the Mobile Ads SDK with an AdMob App ID.
     MobileAds.initialize(this) {}

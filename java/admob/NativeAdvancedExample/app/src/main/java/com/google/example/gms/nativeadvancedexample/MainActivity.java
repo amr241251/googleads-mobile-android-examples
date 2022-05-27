@@ -19,6 +19,7 @@ package com.google.example.gms.nativeadvancedexample;
 import android.os.Build;
 import android.os.Bundle;
 import androidx.appcompat.app.AppCompatActivity;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.CheckBox;
@@ -47,6 +48,7 @@ import com.google.android.gms.ads.nativead.NativeAdView;
 public class MainActivity extends AppCompatActivity {
 
     private static final String ADMOB_AD_UNIT_ID = "ca-app-pub-3940256099942544/2247696110";
+    private static final String TAG = "MainActivity";
 
     private Button refresh;
     private CheckBox startVideoAdsMuted;
@@ -57,6 +59,9 @@ public class MainActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+
+        // Log the Mobile Ads SDK version.
+        Log.d(TAG, "GMA SDK VERSION: " + MobileAds.getVersion());
 
         // Initialize the Mobile Ads SDK.
         MobileAds.initialize(this, new OnInitializationCompleteListener() {
